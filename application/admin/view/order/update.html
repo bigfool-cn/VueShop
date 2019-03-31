@@ -1,0 +1,59 @@
+{extend name="common" /}
+{block name='content'}
+<div class="padding-big background-color">
+
+    <!-- TAB NAVIGATION -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li ><a href="{:url('admin/order/list')}">订单列表</a></li>
+        <li class="active"><a href="">更新订单</a></li>
+    </ul>
+    <hr>
+    <form action="" method="post">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>商品名称</th>
+                <th>商品价格</th>
+                <th>参考价格</th>
+                <th>点击量</th>
+                <th>预览图</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$data['order_name']}</td>
+                <td>
+                    <?php
+                        $data1 = json_decode($data['goods_info'],true);
+                        foreach($data1['goods'] as $k){
+                            echo $k['name'].' == '.$k['num'].' * '.$k['price'].'<br>';
+                    }
+                    ?>
+                </td>
+                <td>{$data['price']}</td>
+                <td>{$data['username']}</td>
+                <td>{$data['status']}</td>
+
+            </tr>
+
+            </tbody>
+        </table>
+        <div class="form-group">
+            <label for="inputID" class="col-sm-2 control-label">更新订单状态:</label>
+            <div class="col-sm-10">
+                <input type="hidden" name="id" value="{$data['id']}">
+                <select name="status" id="inputID" class="form-control" style="width: 80%">
+                    <option value="未发货" <?php if($data['status'] == '未发货'): ?>selected <?php endif; ?> > -- 未发货 --</option>
+                    <option value="已发货" <?php if($data['status'] == '已发货'): ?>selected <?php endif; ?> > -- 已发货 --</option>
+                    <option value="已签收" <?php if($data['status'] == '已签收'): ?>selected <?php endif; ?> > -- 已签收 --</option>
+                </select>
+            </div>
+        </div>
+
+
+    <button type="submit" class="btn btn-success" style="margin-top: 30px;margin-left: 200px">更新订单信息</button>
+
+    </form>
+
+</div>
+{/block}

@@ -1,0 +1,37 @@
+{extend name="common" /}
+{block name='content'}
+<div class="padding-big background-color">
+	<!-- TAB NAVIGATION -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li class="active"><a href="">栏目列表</a></li>
+		<li ><a href="{:url('admin/category/create')}">添加/编辑</a></li>
+	</ul>
+	<hr>
+	<table class="table table-hover" >
+		<thead>
+		<tr >
+			<th width="100">id</th>
+			<th >分类名称</th>
+			<th>预览图</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		{foreach name='data' item='v'}
+			<tr >
+				<td style="line-height: 40px;">{$v['cid']}</td>
+				<td style="line-height: 40px">{$v['_catname']}</td>
+				<td>
+					<img src="{$v['thumb']}" alt="" width="60">
+				</td>
+				<td style="line-height: 40px">
+					<a href="{:url('admin/category/edit',['id'=>$v['cid']])}" class="btn btn-primary btn-xs">编辑</a>
+					<a href='javascript:if(confirm("确定删除吗？")) location.href="{:url('admin/category/delete',['id'=>$v['cid']])}";' class="btn btn-danger btn-xs">删除</a>
+				</td>
+			</tr>
+		{/foreach}
+		</tbody>
+	</table>
+
+</div>
+{/block}

@@ -1,0 +1,47 @@
+{extend name="common" /}
+{block name='content'}
+<div class="padding-big background-color">
+
+    <!-- TAB NAVIGATION -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="">订单列表</a></li>
+    </ul>
+    <hr>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th width="60">id</th>
+            <th>订单号</th>
+            <th>商品详情</th>
+            <th>商品总价</th>
+            <th>购买者</th>
+            <th>商品状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            {foreach $orderInfo as $k=>$v}
+            <tr>
+                <td>{$k+1}</td>
+                <td>{$v['order_name']}</td>
+                <td>
+                    <?php
+                        $data = json_decode($v['goods_info'],true);
+                        foreach($data['goods'] as $k){
+                            echo $k['name'].' == '.$k['num'].' * '.$k['price'].'<br>';
+                        }
+                    ?>
+                </td>
+                <td>{$v['price']}</td>
+                <td>{$v['username']}</td>
+                <td>{$v['status']}</td>
+                <td>
+                    <a href="{:url('admin/order/update',['id'=>$v['id']])}">详情</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</div>
+{/block}

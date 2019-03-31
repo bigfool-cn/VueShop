@@ -1,0 +1,38 @@
+{extend name="common" /}
+{block name='content'}
+<div class="padding-big background-color">
+
+    <!-- TAB NAVIGATION -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="">用户列表</a></li>
+    </ul>
+    <hr>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>用户名</th>
+            <th>电话</th>
+            <th>邮箱</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $data as $v}
+            <tr>
+                <td>{$v['uid']}</td>
+                <td>{$v['username']}</td>
+                <td>{$v['phone']}</td>
+                <td>{$v['email']}</td>
+                <td>{$v['create_time']}</td>
+                <td>
+                    <a href='javascript:if(confirm("确定删除吗？")) location.href="{:url('admin/user/delete',['id'=>$v['uid']])}";' class="btn btn-danger btn-xs">删除</a>
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+</div>
+{/block}

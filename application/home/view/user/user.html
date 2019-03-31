@@ -1,0 +1,78 @@
+{extend name='common' /}
+
+
+{block name='header'}
+<link rel="stylesheet" href="__ZHOME__/css/user.css">
+{/block}
+
+{block name='content'}
+
+<div class="currentloc bg-f5f5f5 clear">
+    <div class="center f12">
+        <div class="fl"><a href="#">首页</a><span>/</span>个人信息</div>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+        <span class="fr m-r-100 f-a5937d"><!-- 节日名称  <i class="icon-bgr icon-gift m-l-10"></i>--></span>
+    </div>
+</div>
+
+<div class="md-account clear bg-f5f5f5">
+    <div class="center">
+        <div class="user-left fl bg-fff">
+            <p class="tc user-exit">
+                <a class="icon-bgr icon-account" title="退出" href="/logout.html"></a><br>
+                <span class="dib p-t-10"><?php echo  session('user.user_username') ?></span>
+            </p>
+            <ul class="tree-list m-t-28">
+                <li><a href="/orderlist.html" class="">我的订单</a></li>
+                <li class="m-t-15"><a href="user.html" class="current">个人信息</a></li>
+                <li><a href="/changepassword.html" class="">修改密码</a></li>
+                <li><a href="/address.html" class="">我的地址</a></li>
+            </ul>
+        </div>        <div class="user-right fr bg-fff">
+        <div class="user-title"><span class="f30 f-666">个人信息</span></div>
+        <div class="user-content">
+            <form action="" method="post">
+                <div class="md-form">
+                <div class="line clear m-t-40">
+                    <span class="fl tl title p-t-16 lh1"><em class="f-d93732">*</em> 手机号</span>
+                    <div class="content fl m-l-20">
+                        <input type="text" name="phone" value="{$userInfo['phone']}" class="input" {if condition="$userInfo['phone']"} readonly {/if}>
+                    </div>
+                    <p style="text-align: center;color:#b0b0b0;margin-top: 5px">手机号，暂不支持修改</p>
+                </div>
+                <div class="line clear m-t-31">
+                    <span class="fl tl title p-t-16 lh1"><em class="f-d93732">*</em> 邮箱</span>
+                    <div class="content fl m-l-20">
+                        <input type="text" name="email" value="{$userInfo['email']}" class="input">
+                    </div>
+                </div>
+                <div class="line clear m-t-31">
+                    <span class="fl tl title p-t-16 lh1"><em class="f-fff">*</em> 昵称</span>
+                    <div class="content fl m-l-20">
+                        <input type="text" name="username" value="{$userInfo['username']}" class="input">
+                    </div>
+                </div>
+                <div class="line clear m-t-60 b-t-1 p-t-30">
+                    <div class="content fr m-l-30">
+                        <button class="btn-red-single lh1 fr ani-bg " type="submit">确认提交</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+{/block}
+
+{block name='footer'}
+
+<div class="currentloc bg-f5f5f5 clear">
+    <div class="center f12">
+        <div class="fl"><a href="#">首页</a><span>/</span>个人信息</div>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+        <span class="fr m-r-100 f-a5937d"><!-- 节日名称  <i class="icon-bgr icon-gift m-l-10"></i>--></span>
+    </div>
+</div>
+{/block}

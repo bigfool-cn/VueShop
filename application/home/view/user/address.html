@@ -1,0 +1,135 @@
+{extend name='common' /}
+
+{block name='header'}
+
+
+<link rel="stylesheet" href="__ZHOME__/css/user.css">
+<style>
+    .form-control {
+        display: inline-block;
+        width: 30%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+</style>
+{/block}
+
+{block name='content'}
+
+<div class="currentloc bg-f5f5f5 clear">
+    <div class="center f12">
+        <div class="fl"><a href="/">首页</a><span>/</span>个人信息</div>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+        <span class="fr m-r-100 f-a5937d"><!-- 节日名称  <i class="icon-bgr icon-gift m-l-10"></i>--></span>
+    </div>
+</div>
+
+<div class="md-account clear bg-f5f5f5">
+    <div class="center">
+        <div class="user-left fl bg-fff">
+            <p class="tc user-exit">
+                <a class="icon-bgr icon-account" title="退出" href="/logout.html"></a><br>
+                <span class="dib p-t-10"><?php echo  session('user.user_username') ?></span>
+            </p>
+            <ul class="tree-list m-t-28">
+                <li><a href="/orderlist.html" class="">我的订单</a></li>
+                <li class="m-t-15"><a href="user.html" >个人信息</a></li>
+                <li><a href="/changepassword.html" >修改密码</a></li>
+                <li><a href="/address.html" class="current">我的地址</a></li>
+            </ul>
+        </div>
+        <div class="user-right fr bg-fff">
+            <div class="user-title f30 f-666">我的地址薄</div>
+            <div class="user-content address-book">
+                <table border="1" style="text-align: center">
+                    <thead>
+                    <tr>
+                        <th height="40">id</th>
+                        <th>收货人</th>
+                        <th>手机号码</th>
+                        <th>地址</th>
+                        <!--<th width="100">操作</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach $address as $k=>$v}
+                    <tr>
+                        <td height="50">{$k+1}</td>
+                        <td>{$v['name']}</td>
+                        <td>{$v['phone']}</td>
+                        <td>{$v['address']['province']}-{$v['address']['city']}-{$v['address']['county']}-{$v['address']['xiangxi']}</td>
+                        <!--<td>-->
+                            <!--<a href="">编辑</a>-->
+                            <!--<a href="">删除</a>-->
+                        <!--</td>-->
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+
+            <h1 class="text-center" style="margin: 30px 0 20px">地址添加</h1>
+
+            <div class="container">
+
+                <form action="" method="post" class="form-inline">
+                    <div class="form-group">
+                        <span style="display: inline-block;height: 40px;position: relative;"><em class="f-d93732">*</em>收货昵称：</span>
+                        <input required name="name" class="form-control"  style="width: 400px" placeholder="收货人">
+                    </div>
+                    <div class="form-group">
+                        <span style="display: inline-block;height: 40px;position: relative;"><em class="f-d93732">*</em>手机号码：</span>
+                        <input required name="phone" class="form-control"  style="width: 400px" placeholder="手机号码">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 30px">
+                        <div class="col-sm-12" data-toggle="distpicker">
+                            <span style="display: inline-block;height: 40px;position: relative;"><em class="f-d93732">*</em>所在地区：</span>
+                            <select name="province" class="form-control" style="width: auto"></select>
+                            <select name="city" class="form-control" style="width: auto"></select>
+                            <select name="county" class="form-control" style="width: auto"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span style="display: inline-block;height: 40px;position: relative;top: -20px"><em class="f-d93732">*</em>详细信息：</span>
+                        <textarea required name="xiangxi" class="form-control"  style="width: 400px" placeholder="详细信息"></textarea>
+                    </div>
+
+                    <button type="submit" class="form-control" style="color: #00a0e9;margin-left: 80px">提交</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    </div>
+</div>
+
+{/block}
+
+{block name='footer'}
+
+<div class="currentloc bg-f5f5f5 clear">
+    <div class="center f12">
+        <div class="fl"><a href="/">首页</a><span>/</span>个人信息</div>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+        <span class="fr m-r-100 f-a5937d"><!-- 节日名称  <i class="icon-bgr icon-gift m-l-10"></i>--></span>
+    </div>
+</div>
+
+<script src="__ZHOME__/js/distpicker.data.js"></script>
+<script src="__ZHOME__/js/distpicker.js"></script>
+
+{/block}

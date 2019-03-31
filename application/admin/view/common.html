@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>南山松-商城后台</title>
+    <meta name="csrf-token" content="{{csrf_token()}}">
+    <link rel="stylesheet" type="text/css" href="__ZY__/css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="__ZY__/css/style.css" />
+    <link rel="stylesheet" href="__ZY__/node_modules/hdjs/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="__ZY__/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__ZY__/js/haidao.offcial.general.js"></script>
+    <script>
+        hdjs = {
+            'base': '__ZY__/node_modules/hdjs',
+            'uploader': "{:url('system/component/uploader')}",
+            'filesLists': "{:url('system/component/filesLists')}?"
+        }
+    </script>
+    <script src="__ZY__/node_modules/hdjs/app/util.js"></script>
+    <script src="__ZY__/node_modules/hdjs/require.js"></script>
+    <script src="__ZY__/node_modules/hdjs/config.js"></script>
+
+    <script>
+        require(['jquery'], function ($,util) {
+            //为异步请求设置CSRF令牌
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        })
+    </script>
+</head>
+
+<body>
+
+<div class="view-topbar">
+    <div class="topbar-console">
+        <div class="tobar-head fl">
+            <a href="#" class="topbar-logo fl">
+                <span><img src="__ZY__/images/logo.png" width="20" height="20"/></span>
+            </a>
+            <a href="#" class="topbar-home-link topbar-btn text-center fl"><span>管理控制台</span></a>
+        </div>
+    </div>
+    <div class="topbar-info">
+        <ul class="fr">
+            <li class="fl dropdown topbar-notice topbar-btn">
+                <a href="#" class="dropdown-toggle">
+                    <span class="icon-notice"></span>
+                </a>
+            </li>
+            <li class="fl topbar-info-item">
+                <div class="dropdown">
+                    <a href="#" class="topbar-btn">
+                        <span class="fl text-normal">帮助与文档</span>
+                        <span class="icon-arrow-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">使用文档</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="fl topbar-info-item">
+                <div class="dropdown">
+                    <a href="#" class="topbar-btn">
+                        <span class="fl text-normal">
+                            {:session('user.user_username')}
+                        </span>
+                        <span class="icon-arrow-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{:url('admin/user/changepassword')}">修改密码</a></li>
+                        <li><a href="{:url('admin/user/logout')}">退出</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="view-body">
+
+    <div class="view-sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-nav">
+                <div class="sidebar-title">
+                    <a href="#">
+                        <span class="icon"><b class="fl icon-arrow-down"></b></span>
+                        <span class="text-normal">栏目管理</span>
+                    </a>
+                </div>
+                <ul class="sidebar-trans">
+                    <li>
+                        <a href="{:url('admin/category/index')}">
+                            <b class="sidebar-icon"><img src="__ZY__/images/icon_author.png" width="16" height="16" /></b>
+                            <span class="text-normal">栏目列表</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('admin/category/create')}">
+                            <b class="sidebar-icon"><img src="__ZY__/images/icon_message.png" width="16" height="16" /></b>
+                            <span class="text-normal">添加栏目</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="sidebar-title">
+                    <a href="#">
+                        <span class="icon"><b class="fl icon-arrow-down"></b></span>
+                        <span class="text-normal">商品管理</span>
+                    </a>
+                </div>
+                <ul class="sidebar-trans">
+                    <li>
+                        <a href="{:url('admin/goods/index')}">
+                            <b class="sidebar-icon"><img src="__ZY__/images/icon_author.png" width="16" height="16" /></b>
+                            <span class="text-normal">商品列表</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('admin/goods/create')}">
+                            <b class="sidebar-icon"><img src="__ZY__/images/icon_message.png" width="16" height="16" /></b>
+                            <span class="text-normal">添加商品</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="sidebar-title">
+                    <a href="#">
+                        <span class="icon"><b class="fl icon-arrow-down"></b></span>
+                        <span class="text-normal">订单管理</span>
+                    </a>
+                </div>
+                <ul class="sidebar-trans">
+                    <li>
+                        <a href="{:url('admin/order/list')}">
+                            <b class="sidebar-icon"><img src="__ZY__/images/icon_author.png" width="16" height="16" /></b>
+                            <span class="text-normal">订单列表</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="sidebar-nav">
+                <div class="sidebar-title">
+                    <a href="#">
+                        <span class="icon"><b class="fl icon-arrow-down"></b></span>
+                        <span class="text-normal">用户管理</span>
+                    </a>
+                </div>
+                <ul class="sidebar-trans">
+                    <li>
+                        <a href="{:url('admin/user/list')}">
+                            <b class="sidebar-icon"><img src="__ZY__/images/icon_author.png" width="16" height="16" /></b>
+                            <span class="text-normal">用户列表</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="view-product background-color">
+        {block name='content'}{/block}
+    </div>
+</div>
+
+<script>
+    $(".sidebar-title").live('click', function() {
+        if ($(this).parent(".sidebar-nav").hasClass("sidebar-nav-fold")) {
+            $(this).next().slideDown(200);
+            $(this).parent(".sidebar-nav").removeClass("sidebar-nav-fold");
+        } else {
+            $(this).next().slideUp(200);
+            $(this).parent(".sidebar-nav").addClass("sidebar-nav-fold");
+        }
+    });
+</script>
+
+
+</body>
+
+</html>

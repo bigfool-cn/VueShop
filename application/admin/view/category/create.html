@@ -1,0 +1,97 @@
+{extend name="common" /}
+{block name='content'}
+<div class="padding-big background-color">
+
+        <!-- TAB NAVIGATION -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li ><a href="{:url('admin/category/index')}">栏目列表</a></li>
+            <li class="active"><a href="#">添加/编辑</a></li>
+        </ul>
+        <hr>
+        <!-- TAB CONTENT -->
+        <div class="tab-content container" style="width: 90%">
+            <form action="{:url('admin/category/save')}" method="post">
+                <div class="form-group">
+                    <label>所属栏目</label>
+                    <select name="pid" class="form-control">
+                        <option value="0">顶级栏目</option>
+
+                        {foreach name="data" item="v" }
+                            <option  value="{$v.cid}">{$v.catname}</option>
+                        {/foreach}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >栏目名称</label>
+                        <input type="text" class="form-control" name="catname">
+
+                </div>
+                <div class="form-group">
+                    <label >缩略图</label>
+
+                    <!--缩略图使用框架的单图上传组件-->
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="thumb" readonly="" >
+                            <div class="input-group-btn">
+                                <button onclick="upImage(this)" class="btn btn-default" type="button">选择图片</button>
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top:5px;">
+                            <img src="__ZY__/node_modules/hdjs/images/nopic.jpg" class="img-responsive img-thumbnail" width="150">
+                            <em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="removeImg(this)">×</em>
+                        </div>
+                    </div>
+                    <script>
+                        //上传图片
+                        function upImage(obj) {
+                            require(['util'], function (util) {
+                                options = {
+                                    multiple: false,//是否允许多图上传
+                                    //data是向后台服务器提交的POST数据
+                                    data:{name:'后盾人',year:2099}
+                                };
+                                util.image(function (images) {          //上传成功的图片，数组类型
+
+                                    $("[name='thumb']").val(images[0]);
+                                    $(".img-thumbnail").attr('src', images[0]);
+                                }, options)
+                            });
+                        }
+
+                        //移除图片
+                        function removeImg(obj) {
+                            $(obj).prev('img').attr('src', 'resource/images/nopic.jpg');
+                            $(obj).parent().prev().find('input').val('');
+                        }
+                    </script>
+
+                </div>
+
+                <div class="form-group">
+                    <label >栏目描述</label>
+                    <textarea name="description" class="form-control" cols="30" rows="5"></textarea>
+                    <p class="help-block">栏目描述用于列表页的meta描述标签的内容，或者作为栏目的页面的一个描述</p>
+                </div>
+                <div class="form-group">
+                    <label>栏目跳转地址</label>
+                    <input type="text" name="linkurl" class="form-control" >
+                </div>
+                <div class="form-group">
+                    <label>排序</label>
+                    <input type="number" name="orderby" class="form-control" >
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="iscover"  > 是否为封面栏目
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">保存</button>
+            </form>
+
+        </div>
+
+</div>
+{/block}

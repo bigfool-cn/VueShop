@@ -1,0 +1,144 @@
+{extend name='common' /}
+
+{block name='header'}
+    <link rel="stylesheet" href="__ZHOME__/css/user.css">
+<style>
+
+</style>
+{/block}
+
+{block name='content'}
+
+<div class="bg-f5f5f5 p-b-10">
+    <div class="currentloc bg-f5f5f5 clear">
+        <div class="center f12">
+            <div class="fl"><a href="/">首页</a><span>/</span>填写订单</div>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+            <span class="fr m-r-100 f-a5937d"></span>
+        </div>
+    </div>
+
+
+    <form action="/topay.html" method="post" name="theForm"  >
+
+        <div class="md-order center bg-fff">
+            <div class="address clear b-b-3">
+                <span  class=" title fl f16 " style="line-height: 63px">收货地址:</span>
+                {if condition='$address'}
+                <div class="cont fl checkbox ">
+                    <input type="text" name="address" id="address" value="{$address[0]['address']['province']}-{$address[0]['address']['city']}-{$address[0]['address']['county']}-{$address[0]['address']['xiangxi']}" readonly required style="background:#FAFFBD;">
+                </div>
+                {else /}
+                <div class="cont fl checkbox ">
+                    <input type="text" readonly hidden name="address" required style="background:#FAFFBD;">
+                    <p>你还没有收货地址，请到 <a href="/address.html" style="padding: 6px">个人中心</a> 填写收获地址</p>
+                </div>
+                {/if}
+            </div>
+            <div class="address clear b-b-3">
+                <span  class=" title fl f16 " style="line-height: 63px">收货人:</span>
+                {if condition='$address'}
+                <div class="cont fl checkbox ">
+                    <input type="text" name="username" id="username" readonly required value="{$address[0]['name']}" style="background:#FAFFBD;">
+                </div>
+                {else /}
+                <div class="cont fl checkbox ">
+                    <input type="text" readonly hidden name="address" required style="background:#FAFFBD;">
+                    <p>你还没有收货地址，请到 <a href="/address.html" style="padding: 6px">个人中心</a> 填写收获地址</p>
+                </div>
+                {/if}
+            </div>
+            <div class="address clear b-b-3">
+                <span  class=" title fl f16 " style="line-height: 63px">联系电话:</span>
+                {if condition='$address'}
+                <div class="cont fl checkbox ">
+                    <input type="text" name="phone" id="phone" value="{$address[0]['phone']}" readonly required style="background:#FAFFBD;">
+                </div>
+                {else /}
+                <div class="cont fl checkbox ">
+                    <input type="text" readonly hidden name="address" required style="background:#FAFFBD;">
+                    <p>你还没有收货地址，请到 <a href="/address.html" style="padding: 6px">个人中心</a> 填写收获地址</p>
+                </div>
+                {/if}
+            </div>
+            <div class="address clear b-b-3">
+                <span  class=" title fl f16 " style="line-height: 63px">备注:</span>
+                <div class="cont fl checkbox ">
+                    <textarea class="form-control"  rows="3"   name="note" placeholder="备注" style="background:#FAFFBD;width: 80%"></textarea>
+                </div>
+            </div>
+            <div class="address clear b-b-3"><div class="mask dn"></div>
+                <span class="title fl lh50 f16">支付方式</span>
+                <div class="cont fl checkbox">
+                    <input type="radio" name="pay_id" value="2" style="width: 100px" checked="checked" readonly>支付宝
+                    <!--<input type="radio" name="pay_id" value="1" style="width: 100px">微信-->
+                    <!--<img src="__ZHOME__/images/Alipay.png" width="100px" height="50px">-->
+                    <!--<a href="javascript:void(0)" data-js-bind="select_payment" data-pay_id="0" class="focus fl">货到付款</a>-->
+                    <!--<a href="javascript:void(0)" data-js-bind="select_payment" data-pay_id="3" class="m-l-30 fl payment-cod">货到付款&nbsp;手续费 <span class="f-d93732">¥6.0</span></a>-->
+                </div>
+            </div>
+            <div class="goods-list clear m-x-65 rel"><div class="mask dn"></div>
+                <p class="clear p-b-10"><span class="title f16">商品清单</span>
+                    <a href="/cart.html" class="fr"><i class="icon-bgr icon-arrowL m-r-10"></i>返回购物车修改</a>
+                </p>
+                <div class="cont tc">
+                    <table>
+                        {foreach $goodsData['goods'] as $v}
+                        <tr data-rec-id="1301026" >
+                            <td width="45%" class="tl">
+                                <a href="javascript:void(0)">
+                                    <img src="{$v['info']['cover']}" class="m-r-10 dib">
+                                    <span class="dib overtxt">{$v['name']}</span>
+                                </a>
+                            </td>
+                            <td>{$v['price']} x {$v['num']}</td>
+                            <td>{$v['total']}</td>
+                        </tr>
+                        {/foreach}
+                    </table>
+                </div>
+            </div>
+           <div>
+           <div class="pay-detail clear m-x-65 rel">
+
+               <div>
+                   <div class="fr">
+                       <table>
+                           <tbody>
+                           <tr>
+                               <td>商品件数：</td><td class="tr" id="total_real_goods_count">{$goodsData['total_rows']}</td>
+                           </tr>
+                            <tr>
+                                <td>金额合计：</td><td class="tr" id="total_goods_price">￥{$goodsData['total']}</td>
+                                <input type="hidden" name="total" value="{$goodsData['total']}">
+                            </tr>
+                       </tbody>
+                       </table>
+                   </div>
+               </div>
+
+           </div>
+           </div>
+            <div class="order-btn tr rel">
+                <button type="submit" class="btn-red-single submit_order" style="outline: none">提交订单</button>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+
+{/block}
+
+{block name='footer'}
+
+<div class="currentloc bg-f5f5f5 clear">
+    <div class="center f12">
+        <div class="fl"><a href="#">首页</a><span>/</span>个人信息</div>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+        <span class="fr f-666">服务热线：400-111-1111 (8:00－24:00)</span>
+        <span class="fr m-r-100 f-a5937d"><!-- 节日名称  <i class="icon-bgr icon-gift m-l-10"></i>--></span>
+    </div>
+</div>
+
+{/block}

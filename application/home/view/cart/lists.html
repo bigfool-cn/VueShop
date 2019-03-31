@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>JS_chen-商城</title>
+    <link type="text/css" rel="stylesheet" href="__ZHOME__/css/base.css">
+    <link type="text/css" rel="stylesheet" href="__ZHOME__/css/style.css">
+    <link type="text/css" rel="stylesheet" href="__ZHOME__/css/idialog.css">
+    <script src="__ZHOME__/js/jquery.js"></script>
+    <script src="__ZY__/node_modules/vue/dist/vue.js"></script>
+    <script src="__ZY__/node_modules/axios/dist/axios.js"></script>
+
+</head>
+
+<div class="header">
+    <div class="center">
+        <div class="logo icon-bgr icon-logo ani-bg fl m-t-17"><a href="/">首页</a></div>
+        <span class="dib f22 m-l-30 m-t-28">我的购物车</span>
+        {if condition="session('?user.user_username')"}
+
+        <div class="cart-hd fr m-t-31 rel">
+            <span class="f-b28850">
+                 <?php echo  session('user.user_username') ?>
+            </span>
+            <a href="/user.html" class="m-l-30">个人中心</a>
+            <a href="/orderlist.html" class="m-l-30">我的订单</a>
+            <a href="/logout.html" class="m-l-30">退出登录</a>
+        </div>
+        {else /}
+        <div class="cart-hd fr m-t-31 rel">
+            <a href="/login.html">登陆</a>
+            <span class="m-x-5">/</span>
+            <a href="/register.html">注册</a>
+
+        </div>
+        {/if}
+
+    </div>
+</div>
+
+<div class="bg-f5f5f5 p-b-40" id="app">
+    <div class="currentloc bg-f5f5f5 clear">
+        <div class="center f12">
+            <div class="fl"><a href="/">首页</a><span>/</span>购物车</div>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+            <span class="fr m-r-100 f-a5937d"></span>
+        </div>
+    </div>
+
+
+
+    <div class="shopping-cart center bg-fff tc"  v-if="cart">
+        <table>
+            <thead>
+            <tr>
+                <td width="50%" class="info tl">商品信息</td>
+                <td width="10%">单价</td>
+                <td width="10%">数量</td>
+                <td width="10%">库存</td>
+                <td width="10%">小计</td>
+                <td width="10%">操作</td>
+            </tr>
+            </thead>
+            <tbody id="cart_list">
+            <tr data-rec-id="1300777" v-for="(v,k) in cart" >
+                <td class="info tl">
+                    <a :href="'/goods/'+v['id']+'.html'" target="_blank">
+                        <img :src="v['cover']" class="dib m-r-5">
+                    </a>
+                    <div class="dib">
+                        <p><a :href="'/goods/'+v['id']+'.html'" target="_blank">{{v['name']}}</a></p>
+                        <p class="f12"><span class="f-666">款式:{{v['options'][0]['sname']}}</span></p>
+                    </div>
+                </td>
+                <td>￥{{v['price']}}</td>
+                <td>
+                    <div class="dib count-box">
+                        <a href="javascript:void(0)" @click="reduce(k)" class="icon-bgr icon-sub dib"></a><input type="text" readonly  v-model.number="v['num']" class="dib tc icon-number" ><a href="javascript:void(0)" @click="add(k,v['options'][0]['snum'])" class="icon-bgr icon-add dib"></a>
+                    </div>
+                </td>
+                <td>{{v['options'][0]['snum']}}</td>
+                <td id="sub_total_1300777">￥{{ v['price']*v['num'] || v['subprice'] }}</td>
+                <td><a href="javascript:void(0)" class="icon-bgr icon-delete" data-rec_id="1300777" @click="del(k)"></a></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="cart-btm clear f16">
+            <div class="fl tl"><a href="/" class="dib m-t-5"><i class="icon-bgr icon-page-l m-r-10"></i>继续购物</a></div>
+            <div class="fr tr">
+                <span>共{{cartLen}}件商品</span>
+                <span class="m-l-20">合计：<b class="f18 f-d93732" id="goods-total">￥{{totalPrice}}</b></span>
+                <a href="/flow.html" class="btn-red-sml f14 m-l-80 ani-bg">去结账</a>
+            </div>
+        </div>
+    </div>
+    <div class="shopping-none center bg-fff tc"  v-else>
+        <p class="f-999 f16">购物车中没有礼物</p>
+        <p class="t-line tl f16"><a href="/">继续购物</a></p>
+    </div>
+
+</div>
+
+<div class="footer">
+    <div class="top">
+        <div class="center clear">
+            <div class="top-box1 fl">
+                <i class="icon-bgr icon-logo-bt fl m-r-60 m-l-20"></i>
+            </div>
+            <div class="top-box2 fl">
+                <img src="__ZHOME__/images/slogan.png">
+            </div>
+            <div class="top-box3 fl">
+                <p class="fb f16">关注我们</p>
+                <p class="m-t-10">
+                    <!--<a href="#" target="_blank" class="icon-bgr icon-sina"></a>-->
+                    <!--<a href="#" target="_blank" class="icon-bgr icon-tencent m-l-10"></a>-->
+                    <a href="javascript:void(0)" target="_blank" class="icon-bgr icon-wechat m-l-10 rel"><span class="dn pic-wx"></span></a>
+                </p>
+            </div>
+            <div class="top-box4 fl tc">
+                <p class="f12">周一至周日 8:00-24:00</p>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="qqbtn lh1 m-t-10 dib">QQ在线交谈</a>
+            </div>
+        </div>
+    </div>
+    <div class="bottom clear f-e7e7e7">
+
+        <ul class="center clear icons f18 fb">
+            <li class="fl fst"><i class="icon-bgr1 icon-ft1 m-r-16"></i>30天免费退换货</li>
+            <li class="fl"><i class="icon-bgr1 icon-ft2 m-r-16"></i>100%正品保证</li>
+            <li class="fl"><i class="icon-bgr1 icon-ft3 m-r-16"></i>全场免运费</li>
+            <li class="fl"><i class="icon-bgr1 icon-ft4 m-r-16"></i>提供礼品级包装</li>
+        </ul>
+        <div class="center links clear">
+            <div class="fl">
+                <p class="f-c3c3c3"><span class="m-r-16">© JS_chen</span><span><a href="#" rel="nofollow" target="_blank"></a></span></p>
+            </div>
+            <div class="fr">
+                <p class="f-f5f5f5 f0">
+                    <!--<a href="#" target="_blank" class="f-f5f5f5">关于我们</a><span>|</span>-->
+                    <!--<a href="#" target="_blank" class="f-f5f5f5">帮助中心</a><span>|</span>-->
+                    <!--<a href="#" target="_blank" class="f-f5f5f5">人才招聘</a><span>|</span>-->
+                    <!--<a href="#" target="_blank" class="f-f5f5f5">售后服务</a><span>|</span>-->
+                    <!--<a href="#" target="_blank" class="f-f5f5f5">配送与验收</a><span>|</span>-->
+                    <!--<a href="#" target="_blank" class="f-f5f5f5">联系我们</a>-->
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let carts = new Vue({
+        el:'#app',
+        data:{
+            cart:{$data}
+        },
+        computed:{
+            totalPrice(){
+                let sum=0;
+                for (v in this.cart){
+                    this.cart[v]['subprice']=this.cart[v].num * this.cart[v]['price'];
+                   sum = sum + this.cart[v]['subprice'];
+                }
+                return sum;
+            },
+            cartLen(){
+                let sum=0;
+                for (v in this.cart){
+                    sum = sum +1;
+                }
+                return sum;
+            }
+        },
+        methods:{
+            add(k,max){
+
+                if (this.cart[k]['num'] >=max){
+                    this.cart[k]['num']  =max;
+                }else {
+                    this.cart[k]['num']  = this.cart[k]['num'] +1;
+                }
+
+                // 发送异步修改数据库数据
+                axios.get('/api/Api/update?sid='+k+'&num='+this.cart[k]['num']).then(function (response) {
+
+                })
+
+            },
+            reduce(k){
+
+                if (this.cart[k]['num'] <=1){
+                    this.cart[k]['num'] = 1;
+                }else {
+                    this.cart[k]['num'] = this.cart[k]['num']-1;
+                }
+
+                // 发送异步修改数据库数据
+                axios.get('/api/Api/update?sid='+k+'&num='+this.cart[k]['num']).then(function (response) {
+
+                })
+
+            },
+            del(k){
+                axios.get('/api/APi/deletes?sid='+k).then(function (response) {
+                    carts.cart = response.data;
+                })
+            }
+        }
+    })
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+﻿{extend name='common' /}
+
+{block name='content'}
+
+<div class="md-box">
+    <div class="currentloc clear">
+        <div class="center f12">
+
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=1677658490&site=qq&menu=yes" class="fr qqbtn tc f-666" target="_blank">QQ在线交谈</a>
+            <span class="fr m-r-100 f-a5937d"><!-- 节日名称  <i class="icon-bgr icon-gift m-l-10"></i>--></span>
+        </div>
+    </div>
+    <div class="center rel">
+        <div class="md-login md-register bg-fff">
+            <form action="" method="post" id="formUser">
+                <div class="line title rel lh1 clear"><b class="fl f24">注册账号</b></div>
+                <div class="line m-t-28">
+                    <input type="text" name="extend_field5" id="extend_field5" placeholder="请输入手机号" class="db text" />
+                </div>
+                <div class="line error-tips f12 f-d93732 phone-error">&nbsp;</div>
+                <div class="line">
+                    <input type="password" name="password"  id="password1" placeholder="请输入密码 6-12位" class="db text" />
+                </div>
+                <div class="line error-tips f12 f-d93732 password-error">&nbsp;</div>
+                <div class="line">
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="再次输入密码" class="db text" />
+                </div>
+                <div class="line error-tips f12 f-d93732 confirm_password-error">&nbsp;</div>
+                <div class="line p-l-10 lh1">注册即视为同意
+                    <a href="javascript:void(0)" target="_blank" class="f-b28850">《商城用户注册协议》</a>
+                </div>
+                <div class="line m-t-20"><a href="javascript:void(0)" id="submit" class="btn-form f-fff tc full ani-bg">立即注册</a></div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{/block}
+
+{block name='footer'}
+<script src="__ZHOME__/js/user.js"></script>
+<script>
+    jQuery(function($){
+        $('#extend_field5').on('blur',function(){
+            var $this = $(this),
+                $errorTips = $this.parent(".line").next(".error-tips"),
+                phone = $.trim($this.val());
+//            if(validPhone(phone)){
+//                $.ajax({ url:'#', data:{'phone': phone}, success: function(result){
+//                    if( result.data == "0" ){
+//                        $errorTips.html("&nbsp;");
+//                    }
+//                    else if (result.data == "1"){
+//                        $errorTips.html("手机号码已存在");
+//                        //tip.html('手机号码已存在').addClass('hasError');
+//                    }
+//                }, dataType: 'json',error:function(){
+//                    alert("网络繁忙");
+//                } });
+//            }else{
+//                $errorTips.html("请输入正确手机号号码");
+//            }
+            if(!validPhone(phone)){
+                $errorTips.html("请输入正确手机号号码");
+            }
+
+
+        });
+        $('#submit').on('click',function(){
+            if(userRegister()){
+                $('#formUser').submit();
+            }
+        });
+        function userRegister(){
+            var $phone = $("#extend_field5"),$password = $("#password1"),$confirm_password = $("#confirm_password");
+            var len = $password.val().length;
+            if(!new RegExp(/^1\d{10}$/).test($phone.val())){
+                $phone.parent(".line").next(".error-tips").html('手机号码格式错误');
+                return false;
+            }else{
+                $phone.parent(".line").next(".error-tips").html('&nbsp;');
+            }
+            if(len < 6 || len > 12){
+                $password.parent(".line").next(".error-tips").html('密码为6-12位');
+                return false;
+            }else{
+                $password.parent(".line").next(".error-tips").html('&nbsp;');
+            }
+            if($password.val() != $confirm_password.val()){
+                $confirm_password.parent(".line").next(".error-tips").html('两次输入密码不一致');
+                return false;
+            }else{
+                $confirm_password.parent(".line").next(".error-tips").html('&nbsp;');
+            }
+            return true;
+        }
+    });
+
+</script>
+
+{/block}}
